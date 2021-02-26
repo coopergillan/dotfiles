@@ -1,0 +1,36 @@
+[user]
+  name = Cooper Gillan
+  email = cooper.gillan@gmail.com
+
+[core]
+  editor = vim
+
+[push]
+  default = simple
+
+[alias]
+  # shorthands
+  br = branch
+  co = checkout
+  ci = commit -v
+  st = status
+
+  staged = diff --cached
+  ds = diff --staged
+
+[alias "push"]
+  please = push --force-with-lease
+[push]
+  default = current
+
+  # extra tools
+  cb = !git branch | grep '*' | awk '{print $2}'
+  opush = !git push --set-upstream origin $(git cb)
+  ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+  ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+  lb = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+  fr = !git reset origin/$(git cb) --hard
+  or = !git reset origin/$(git cb) --hard
+    unstage = reset HEAD --
+    last = log -1 HEAD
+  awk = "!f() { git log -p -S\"$1\"; }; f"

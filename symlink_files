@@ -1,7 +1,0 @@
-#!/usr/bin/bash
-
-# Ensure the repos directory exists
-mkdir -p ~/repos
-
-# symlink the files from repo to the local machine
-ln -s ${PWD}/tmux.conf ~/.tmux.conf
