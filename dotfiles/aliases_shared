@@ -1,0 +1,109 @@
+alias cd.="cd .."
+alias cd2.="cd ../.."
+alias cd3.="cd ../../.."
+alias cd4.="cd ../../../.."
+alias cd5.="cd ../../../../.."
+alias cd6.="cd ../../../../../.."
+
+alias ll='ls -halF'
+alias la='ls -A'
+alias l='ls -CF'
+
+alias python="python3"
+alias pip="pip3"
+
+# System shortcuts
+
+mkcd() {
+  command mkdir $1 && cd $1
+}
+
+cdl() {
+  cd "$@" && ls;
+}
+
+function clearswap() {
+  rm ~/.local/share/nvim/swap/*swp
+}
+alias clearswap='clearswap'
+
+# tmux shortcuts
+
+function tmux_public() {
+  if [ -n "$TMUX" ]; then
+    tmux_filepath=${TMUX%%,*}
+    chmod 777 $tmux_filepath
+  else
+    echo "You must run this command from within a tmux session"
+  fi
+}
+
+function tmux_secure() {
+  if [ -n "$1" ]; then
+    chmod 700 /tmp/$1
+    echo "Set session to be private ($1)"
+  else
+    echo "Please specify the name of a tmux to secure"
+  fi
+}
+
+function tmux_start () {
+  if [ -n "$1" ]; then
+    tmux -S /tmp/$1 new-session -s $1 -d
+    tmux_secure $1
+
+    tmux -S /tmp/$1 attach -t $1
+
+    # After detaching/exiting from the tmux
+    # Check if the session is still active to decide whether to clean or secure
+    if ps -o ruser,command -ax | grep -q "[n]ew-session -s $1" ; then
+      tmux_secure $1
+    else
+      rm /tmp/$1
+      echo "Deleted unused session ($1)"
+    fi
+  else
+    echo "Please specify the name of a tmux to start"
+  fi
+}
+
+function tmux_list () {
+  ps -o ruser,command -ax | grep '[n]ew-session -s' | ruby -ne '$_ =~ /^(\w+).*-s (\w+)/; puts "#{$1} started #{$2}"'
+}
+
+alias tmux-start='tmux_start'
+alias tmuxs='tmux_start'
+alias tmux-list='tmux_list'
+alias tmuxl='tmux_list'
+alias tmux-public='tmux_public'
+alias tmuxpub='tmux_public'
+
+# ruby shortcuts
+alias bi="bundle install"
+alias be="bundle exec"
+alias bejs="unset RUBYOPT && bundle exec jekyll serve"
+alias bems="unset RUBYOPT && bundle exec middleman server"
+alias bers="RUBYOPT='-W:no-deprecated -W:no-experimental' bundle exec rails server"
+alias berc="RUBYOPT='-W:no-deprecated -W:no-experimental' bundle exec rails console"
+alias brake="bundle exec rake"
+alias js="bundle exec jekyll serve"
+
+# git shortcuts
+alias gg="git grep"
+alias g="git"
+alias gt="git status"
+alias gr="git reset"
+alias gd="git diff"
+alias gp="git push"
+alias gs="git staged"
+
+# npm shortcuts
+alias nbuild="npm run build"
+alias ndev="npm run dev"
+alias nformat="npm run format"
+alias nlint="npm run lint"
+alias nlocal="npm run local"
+alias nrepl="npm run repl"
+alias nstart="npm run start"
+alias nstory="npm run storybook"
+alias ntest="npm test"

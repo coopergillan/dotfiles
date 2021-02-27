@@ -4,8 +4,11 @@
 mkdir -p ~/repos
 
 # symlink the files from repo to the local machine
-ln -s ${PWD}/dotfiles/tmux.conf ~/.tmux.conf
+ln -s ${PWD}/dotfiles/aliases_shared ~/.aliases_shared
 ln -s ${PWD}/dotfiles/gitconfig ~/.gitconfig
+ln -s ${PWD}/dotfiles/tmux.conf ~/.tmux.conf
+ln -s ${PWD}/dotfiles/zshrc ~/.zshrc
+ln -s ${PWD}/dotfiles/zsh_aliases ~/.zsh_aliases
 
 git clone git@github.com:coopergillan/vim_dotfiles.git ~/.vim
 
